@@ -90,16 +90,38 @@ pip install requests beautifulsoup4
 
 ## Usage
 
+### Basic Usage
+
 1. First, scrape the word URLs from the archives:
 ```bash
 cd src
 python scrape_words.py
 ```
+The scraper will automatically:
+- Check for existing words in the database
+- Report how many new words were found
+- Merge new words with existing data
 
 2. Then extract detailed information for each word:
 ```bash
 python extract_meanings.py
 ```
+The extractor will automatically:
+- Skip words that have already been processed
+- Resume from where it left off if interrupted
+- Save progress after each word to prevent data loss
+
+3. Check processing status:
+```bash
+python check_status.py
+```
+
+### Resume After Interruption
+
+Both scripts support resuming after interruption:
+- **Scraper**: Automatically merges new words with existing data
+- **Extractor**: Skips already processed words and appends new ones
+- Use `Ctrl+C` to safely interrupt processing at any time
 
 ## Output
 

@@ -124,43 +124,117 @@ def extract_word_info(url):
         logging.error(f"Error extracting info from {url}: {e}")
         return "", "", ""
 
-def process_words_csv(input_file="../resources/wordsmith_words.csv", output_file="../resources/wordsmith_complete.csv"):
-    """Process the CSV file of words and URLs to extract word info"""
+def load_processed_words(output_file):
+    """Load already processed words from the output file"""
+    processed_words = {}
+    
+    try:
+        with open(output_file, 'r', newline='', encoding='utf-8') as existing_file:
+            existing_reader = csv.reader(existing_file)
+            header = next(existing_reader, None)
+            
+            for row in existing_reader:
+                if len(row) >= 3:
+                    # Store word as key and full row as value
+                    processed_words[row[0]] = row
+            
+            print(f"Found {len(processed_words)} already processed words.")
+            logging.info(f"Found {len(processed_words)} already processed words.")
+    except FileNotFoundError:
+        print("No existing output file found. Starting fresh.")
+        logging.info("No existing output file found. Starting fresh.")
+    
+    return processed_words
+
+def process_words_csv(input_file="../resources/wordsmith_words.csv", output_file="../resources/wordsmith_complete.csv", resume=True):
+    """Process the CSV file of words and URLs to extract word info
+    
+    Args:
+        input_file: Path to input CSV with words and URLs
+        output_file: Path to output CSV with complete word information
+        resume: If True, skip already processed words; if False, reprocess all
+    """
     words_processed = 0
+    words_skipped = 0
+    
+    # Load existing processed words if resume is enabled
+    processed_words = {}
+    if resume:
+        processed_words = load_processed_words(output_file)
 
     try:
-        # Read the input CSV
+        # Read the input CSV to get all words to process
+        words_to_process = []
         with open(input_file, 'r', newline='', encoding='utf-8') as csvfile:
             reader = csv.reader(csvfile)
             # Skip header row if it exists
-            header = next(reader, None)
+            input_header = next(reader, None)
+            
+            for row in reader:
+                if len(row) >= 2:
+                    word = row[0]
+                    url = row[1]
+                    
+                    # Check if word should be processed
+                    if resume and word in processed_words:
+                        words_skipped += 1
+                        print(f"Skipping already processed word: {word}")
+                        logging.info(f"Skipping already processed word: {word}")
+                    else:
+                        words_to_process.append((word, url))
+        
+        print(f"\nWords to process: {len(words_to_process)}")
+        print(f"Words already processed: {words_skipped}")
+        
+        if len(words_to_process) == 0:
+            print("All words have been processed!")
+            return
 
-            # Prepare output CSV
-            with open(output_file, 'w', newline='', encoding='utf-8') as outfile:
-                writer = csv.writer(outfile, quoting=csv.QUOTE_ALL)
+        # Process words and append to output file
+        mode = 'a' if resume and processed_words else 'w'
+        with open(output_file, mode, newline='', encoding='utf-8') as outfile:
+            writer = csv.writer(outfile, quoting=csv.QUOTE_ALL)
+            
+            # Write header only if starting fresh
+            if mode == 'w':
                 writer.writerow(["Word", "Meaning", "Usage"])
+            
+            # Process each word
+            for word_from_csv, url in words_to_process:
+                try:
+                    logging.info(f"Processing: {word_from_csv} - URL: {url}")
+                    print(f"Processing: {word_from_csv} ({words_processed + 1}/{len(words_to_process)})")
 
-                # Process each word
-                for row in reader:
-                    if len(row) >= 2:
-                        url = row[1]
+                    # Extract word information
+                    word, meaning, usage = extract_word_info(url)
+                    
+                    # If extraction failed, use the word from CSV
+                    if not word:
+                        word = word_from_csv
 
-                        logging.info(f"Processing URL: {url}")
-                        print(f"Processing: {url}")
+                    # Output to CSV
+                    writer.writerow([word, meaning, usage])
+                    outfile.flush()  # Flush after each write to prevent data loss
 
-                        # Extract word information
-                        word, meaning, usage = extract_word_info(url)
+                    words_processed += 1
 
-                        # Output to CSV
-                        writer.writerow([word, meaning, usage])
+                    # Be nice to the server - add a small delay
+                    time.sleep(1)
+                    
+                except KeyboardInterrupt:
+                    print(f"\nProcessing interrupted by user. Processed {words_processed} words so far.")
+                    logging.info(f"Processing interrupted by user. Processed {words_processed} words.")
+                    break
+                except Exception as e:
+                    print(f"Error processing {word_from_csv}: {e}")
+                    logging.error(f"Error processing {word_from_csv}: {e}")
+                    continue
 
-                        words_processed += 1
-
-                        # Be nice to the server - add a small delay
-                        time.sleep(1)
-
-        print(f"Processed {words_processed} words.")
-        logging.info(f"Processed {words_processed} words.")
+        print(f"\nSummary:")
+        print(f"- Processed {words_processed} new words")
+        print(f"- Skipped {words_skipped} already processed words")
+        print(f"- Total words in database: {words_skipped + words_processed}")
+        logging.info(f"Processed {words_processed} new words, skipped {words_skipped} existing words")
 
     except Exception as e:
         logging.error(f"Error processing CSV: {e}")

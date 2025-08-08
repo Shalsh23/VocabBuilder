@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Search - VocabBuilder{% endblock %}
+
+{% block content %}
+<div class="search-page">
+    <div class="page-header">
+        <h1>🔍 Advanced Search</h1>
+        <p>Search through our vocabulary database</p>
+    </div>
+
+    <div class="search-container">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Type to search words or definitions..." 
+                   class="search-input-large" autocomplete="off">
+            <div id="searchSuggestions" class="search-suggestions"></div>
+        </div>
+
+        <div class="search-tips">
+            <h3>Search Tips:</h3>
+            <ul>
+                <li>Type at least 2 characters to see suggestions</li>
+                <li>Search works for both words and their definitions</li>
+                <li>Click on a suggestion to view the word details</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="searchResults" class="search-results">
+        <!-- Results will be loaded here dynamically -->
+    </div>
+</div>
+
+<script>
+let searchTimeout;
+const searchInput = document.getElementById('searchInput');
+const searchSuggestions = document.getElementById('searchSuggestions');
+const searchResults = document.getElementById('searchResults');
+
+searchInput.addEventListener('input', function() {
+    clearTimeout(searchTimeout);
+    const query = this.value.trim();
+    
+    if (query.length < 2) {
+        searchSuggestions.innerHTML = '';
+        searchResults.innerHTML = '';
+        return;
+    }
+    
+    searchTimeout = setTimeout(() => {
+        performSearch(query);
+    }, 300);
+});
+
+async function performSearch(query) {
+    try {
+        const response = await fetch(`/api/search?q=${encodeURIComponent(query)}&limit=20`);
+        const data = await response.json();
+        
+        displayResults(data.results);
+    } catch (error) {
+        console.error('Search error:', error);
+        searchResults.innerHTML = '<p class="error">Error performing search. Please try again.</p>';
+    }
+}
+
+function displayResults(results) {
+    if (results.length === 0) {
+        searchResults.innerHTML = `
+            <div class="empty-state">
+                <h3>No results found</h3>
+                <p>Try a different search term</p>
+            </div>
+        `;
+        return;
+    }
+    
+    let html = '<h2>Search Results (' + results.length + ')</h2>';
+    html += '<div class="search-results-grid">';
+    
+    results.forEach(result => {
+        html += `
+            <div class="search-result-card">
+                <h3><a href="/word/${result.word}">${result.word}</a></h3>
+                <p>${result.meaning}</p>
+                <a href="/word/${result.word}" class="btn btn-sm btn-outline">View Details →</a>
+            </div>
+        `;
+    });
+    
+    html += '</div>';
+    searchResults.innerHTML = html;
+}
+
+// Focus on search input when page loads
+searchInput.focus();
+</script>
+{% endblock %}

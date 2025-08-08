@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Home - VocabBuilder{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1>Welcome to VocabBuilder</h1>
+    <p class="hero-subtitle">Expand your vocabulary with {{ total_words }} carefully curated words</p>
+    
+    <div class="hero-actions">
+        <a href="{{ url_for('word_list') }}" class="btn btn-primary">Browse Words</a>
+        <a href="{{ url_for('study') }}" class="btn btn-secondary">Start Studying</a>
+    </div>
+</div>
+
+{% if word_of_day %}
+<div class="card word-of-day">
+    <h2>📖 Word of the Day</h2>
+    <div class="word-display">
+        <h3 class="word-title">{{ word_of_day.word }}</h3>
+        <div class="word-meaning">
+            <p>{{ word_of_day.meaning[:200] }}{% if word_of_day.meaning|length > 200 %}...{% endif %}</p>
+        </div>
+        <a href="{{ url_for('word_detail', word_name=word_of_day.word) }}" class="btn btn-outline">Learn More →</a>
+    </div>
+</div>
+{% endif %}
+
+<div class="features-grid">
+    <div class="feature-card">
+        <div class="feature-icon">📚</div>
+        <h3>{{ total_words }} Words</h3>
+        <p>Comprehensive collection of interesting vocabulary</p>
+    </div>
+    
+    <div class="feature-card">
+        <div class="feature-icon">🔍</div>
+        <h3>Smart Search</h3>
+        <p>Find words by term or definition</p>
+    </div>
+    
+    <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>Study Mode</h3>
+        <p>Interactive flashcards for effective learning</p>
+    </div>
+    
+    <div class="feature-card">
+        <div class="feature-icon">📝</div>
+        <h3>Usage Examples</h3>
+        <p>Real-world examples with citations</p>
+    </div>
+</div>
+
+<div class="cta-section">
+    <h2>Ready to expand your vocabulary?</h2>
+    <p>Start exploring our collection of fascinating words and their meanings.</p>
+    <a href="{{ url_for('word_list') }}" class="btn btn-primary btn-large">Get Started</a>
+</div>
+{% endblock %}

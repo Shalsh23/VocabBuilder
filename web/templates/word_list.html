@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Word List - VocabBuilder{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Word Collection</h1>
+    <p>Browse through our collection of {{ total_results }} words</p>
+</div>
+
+<div class="filters-bar">
+    <form method="get" action="{{ url_for('word_list') }}" class="filter-form">
+        <div class="filter-group">
+            <input type="text" name="search" value="{{ search_query }}" 
+                   placeholder="Search words or meanings..." class="filter-input">
+        </div>
+        <div class="filter-group">
+            <select name="sort" class="filter-select">
+                <option value="alphabetical" {% if sort_by == 'alphabetical' %}selected{% endif %}>A to Z</option>
+                <option value="reverse" {% if sort_by == 'reverse' %}selected{% endif %}>Z to A</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Apply Filters</button>
+        {% if search_query %}
+        <a href="{{ url_for('word_list') }}" class="btn btn-outline">Clear</a>
+        {% endif %}
+    </form>
+</div>
+
+{% if search_query %}
+<div class="search-results-info">
+    <p>Found {{ total_results }} results for "<strong>{{ search_query }}</strong>"</p>
+</div>
+{% endif %}
+
+<div class="words-grid">
+    {% for word in words %}
+    <div class="word-card">
+        <h3 class="word-card-title">
+            <a href="{{ url_for('word_detail', word_name=word.word) }}">{{ word.word }}</a>
+        </h3>
+        <p class="word-card-meaning">{{ word.brief_meaning }}</p>
+        <div class="word-card-actions">
+            <a href="{{ url_for('word_detail', word_name=word.word) }}" class="btn btn-sm btn-outline">View Details</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if total_pages > 1 %}
+<div class="pagination">
+    {% if page > 1 %}
+    <a href="{{ url_for('word_list', page=page-1, search=search_query, sort=sort_by) }}" 
+       class="pagination-btn">← Previous</a>
+    {% endif %}
+    
+    <div class="pagination-numbers">
+        {% for p in range(1, total_pages + 1) %}
+            {% if p == page %}
+            <span class="pagination-current">{{ p }}</span>
+            {% elif p == 1 or p == total_pages or (p > page - 3 and p < page + 3) %}
+            <a href="{{ url_for('word_list', page=p, search=search_query, sort=sort_by) }}" 
+               class="pagination-number">{{ p }}</a>
+            {% elif p == page - 3 or p == page + 3 %}
+            <span class="pagination-ellipsis">...</span>
+            {% endif %}
+        {% endfor %}
+    </div>
+    
+    {% if page < total_pages %}
+    <a href="{{ url_for('word_list', page=page+1, search=search_query, sort=sort_by) }}" 
+       class="pagination-btn">Next →</a>
+    {% endif %}
+</div>
+{% endif %}
+
+{% if not words %}
+<div class="empty-state">
+    <h2>No words found</h2>
+    <p>Try adjusting your search criteria or browse all words.</p>
+    <a href="{{ url_for('word_list') }}" class="btn btn-primary">View All Words</a>
+</div>
+{% endif %}
+{% endblock %}

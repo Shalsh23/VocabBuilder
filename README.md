@@ -1,14 +1,15 @@
-# WordADay - Vocabulary Web Scraper
+# VocabBuilder - Multi-Source Vocabulary Application
 
-A Python web scraping project that collects and extracts vocabulary information from the "A Word A Day" (AWAD) website at wordsmith.org.
+A comprehensive vocabulary learning application that aggregates interesting words, definitions, and usage examples from multiple sources to build a rich language learning database.
 
 ## Overview
 
-This project scrapes interesting English vocabulary words along with their definitions and usage examples from the Wordsmith.org archives, creating a comprehensive database for vocabulary learning and language enrichment.
+VocabBuilder is designed to be an extensible vocabulary aggregation platform. Currently, it supports scraping from the "A Word A Day" (AWAD) website at wordsmith.org, with plans to integrate multiple vocabulary sources including dictionary APIs, literature databases, and other educational resources.
 
-## Features
+## Current Features
 
-- Scrapes word archives from wordsmith.org
+### Wordsmith.org Integration
+- Scrapes word archives from wordsmith.org/awad
 - Extracts detailed word information including:
   - Word definitions
   - Parts of speech
@@ -16,15 +17,55 @@ This project scrapes interesting English vocabulary words along with their defin
 - Saves data in CSV format for easy access and analysis
 - Implements polite scraping with delays to respect server resources
 
+## Planned Features
+
+### Additional Data Sources
+- **Dictionary APIs**: Integration with Merriam-Webster, Oxford, Cambridge APIs
+- **Literature Sources**: Project Gutenberg word frequency analysis
+- **Academic Sources**: SAT/GRE vocabulary lists
+- **Etymology Sources**: Word origin and history tracking
+- **Language Learning Platforms**: Duolingo, Memrise vocabulary sets
+
+### Application Features
+- **Unified Database**: Centralized SQLite/PostgreSQL database for all vocabulary
+- **Web Interface**: Flask/Django web app for browsing and learning
+- **API Service**: RESTful API for vocabulary queries
+- **Spaced Repetition**: Learning algorithm for vocabulary retention
+- **Daily Digest**: Email/notification service for word of the day
+- **Mobile App**: React Native app for on-the-go learning
+- **Export Options**: Anki deck generation, PDF flashcards
+
 ## Project Structure
 
+### Current Structure
 ```
-WordADay/
-├── scrape_words.py           # Scrapes word URLs from archives
-├── extract_meanings.py        # Extracts detailed word information
-├── wordsmith_words.csv       # List of words and their URLs
-├── wordsmith_complete.csv    # Complete dataset with meanings and usage
-└── wordsmith_extraction.log  # Processing logs
+VocabBuilder/
+├── scrapers/
+│   └── wordsmith/           # Wordsmith.org scraper (current)
+│       ├── scrape_words.py
+│       └── extract_meanings.py
+├── data/
+│   ├── wordsmith_words.csv
+│   ├── wordsmith_complete.csv
+│   └── wordsmith_extraction.log
+└── requirements.txt
+```
+
+### Planned Structure
+```
+VocabBuilder/
+├── scrapers/                # Data source integrations
+│   ├── wordsmith/
+│   ├── dictionary_apis/
+│   ├── literature/
+│   └── academic/
+├── database/               # Database models and migrations
+├── api/                    # REST API service
+├── web/                    # Web interface
+├── mobile/                 # Mobile application
+├── utils/                  # Shared utilities
+├── tests/                  # Test suite
+└── data/                   # Data storage
 ```
 
 ## Installation

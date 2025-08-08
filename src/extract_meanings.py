@@ -10,7 +10,7 @@ import html
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
-    filename='wordsmith_extraction.log',
+    filename='../resources/wordsmith_extraction.log',
     filemode='w'
 )
 
@@ -124,7 +124,7 @@ def extract_word_info(url):
         logging.error(f"Error extracting info from {url}: {e}")
         return "", "", ""
 
-def process_words_csv(input_file="wordsmith_words.csv", output_file="wordsmith_complete.csv"):
+def process_words_csv(input_file="../resources/wordsmith_words.csv", output_file="../resources/wordsmith_complete.csv"):
     """Process the CSV file of words and URLs to extract word info"""
     words_processed = 0
 

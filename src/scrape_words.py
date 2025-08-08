@@ -44,7 +44,7 @@ def get_word_urls():
         print(f"Error fetching archives page: {e}")
         return {}
 
-def save_to_csv(word_dict, filename="wordsmith_words.csv"):
+def save_to_csv(word_dict, filename="../resources/wordsmith_words.csv"):
     """Save the word dictionary to a CSV file."""
     with open(filename, "w", newline="", encoding="utf-8") as csvfile:
         writer = csv.writer(csvfile)

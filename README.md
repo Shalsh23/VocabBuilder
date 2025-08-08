@@ -40,15 +40,16 @@ VocabBuilder is designed to be an extensible vocabulary aggregation platform. Cu
 ### Current Structure
 ```
 VocabBuilder/
-├── scrapers/
-│   └── wordsmith/           # Wordsmith.org scraper (current)
-│       ├── scrape_words.py
-│       └── extract_meanings.py
-├── data/
+├── src/                     # Source code
+│   ├── scrape_words.py      # Scrapes word URLs from archives
+│   └── extract_meanings.py  # Extracts detailed word information
+├── resources/               # Data and output files
 │   ├── wordsmith_words.csv
 │   ├── wordsmith_complete.csv
 │   └── wordsmith_extraction.log
-└── requirements.txt
+├── requirements.txt
+├── README.md
+└── .gitignore
 ```
 
 ### Planned Structure
@@ -91,6 +92,7 @@ pip install requests beautifulsoup4
 
 1. First, scrape the word URLs from the archives:
 ```bash
+cd src
 python scrape_words.py
 ```
 

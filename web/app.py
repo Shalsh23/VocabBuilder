@@ -13,7 +13,8 @@ from datetime import datetime
 import re
 
 app = Flask(__name__)
-app.secret_key = 'your-secret-key-change-this-in-production'
+# Use environment variable for secret key in production
+app.secret_key = os.environ.get('SECRET_KEY', 'dev-key-change-in-production')
 
 # Configuration
 CSV_FILE = os.path.join(os.path.dirname(__file__), '..', 'resources', 'wordsmith_complete.csv')
@@ -273,6 +274,9 @@ def about():
 def page_not_found(e):
     return render_template('404.html'), 404
 
+# Load data when module is imported (for production)
+load_word_data()
+
 if __name__ == '__main__':
-    load_word_data()
+    # Development server
     app.run(debug=False, host='127.0.0.1', port=8080)

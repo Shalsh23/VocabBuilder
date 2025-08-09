@@ -1,0 +1,6 @@
+pytest>=7.4
+pytest-cov>=4.1
+pytest-mock>=3.12
+requests-mock>=1.11
+flask-testing>=0.8
+pytest-playwright>=0.4.3

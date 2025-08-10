@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}{{ word.word }} - VocabBuilder{% endblock %}
+
+{% block content %}
+<div class="word-detail">
+    <div class="word-navigation">
+        {% if prev_word %}
+        <a href="{{ url_for('word_detail', word_name=prev_word) }}" class="nav-arrow">← {{ prev_word }}</a>
+        {% else %}
+        <span class="nav-arrow disabled">← Previous</span>
+        {% endif %}
+        
+        <a href="{{ url_for('word_list') }}" class="nav-center">Back to List</a>
+        
+        {% if next_word %}
+        <a href="{{ url_for('word_detail', word_name=next_word) }}" class="nav-arrow">{{ next_word }} →</a>
+        {% else %}
+        <span class="nav-arrow disabled">Next →</span>
+        {% endif %}
+    </div>
+
+    <div class="word-header">
+        <h1 class="word-main">{{ word.word }}</h1>
+    </div>
+
+    <div class="word-content">
+        <section class="word-section">
+            <h2>📖 Definitions</h2>
+            {% if word.meanings %}
+                {% for meaning in word.meanings %}
+                <div class="definition-item">
+                    {% if meaning.part_of_speech %}
+                    <span class="part-of-speech">{{ meaning.part_of_speech }}</span>
+                    {% endif %}
+                    <p class="definition-text">{{ meaning.definition }}</p>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="definition-item">
+                    <p class="definition-text">{{ word.raw_meaning }}</p>
+                </div>
+            {% endif %}
+        </section>
+
+        <section class="word-section">
+            <h2>💬 Usage Examples</h2>
+            {% if word.examples %}
+                {% for example in word.examples %}
+                <div class="example-item">
+                    <blockquote class="example-quote">
+                        {{ example }}
+                    </blockquote>
+                </div>
+                {% endfor %}
+            {% elif word.raw_usage %}
+                <div class="example-item">
+                    <blockquote class="example-quote">
+                        {{ word.raw_usage }}
+                    </blockquote>
+                </div>
+            {% else %}
+                <p class="no-data">No usage examples available.</p>
+            {% endif %}
+        </section>
+    </div>
+
+    <div class="word-actions">
+        <button onclick="copyToClipboard('{{ word.word }}')" class="btn btn-outline">
+            📋 Copy Word
+        </button>
+        <button onclick="copyDefinition()" class="btn btn-outline">
+            📝 Copy Definition
+        </button>
+        <a href="{{ url_for('study') }}?word={{ word.word }}" class="btn btn-primary">
+            🎯 Study This Word
+        </a>
+    </div>
+</div>
+
+<script>
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(function() {
+        alert('Word copied to clipboard!');
+    });
+}
+
+function copyDefinition() {
+    const definitions = document.querySelectorAll('.definition-text');
+    let text = '{{ word.word }}:\n';
+    definitions.forEach(def => {
+        text += def.textContent + '\n';
+    });
+    navigator.clipboard.writeText(text).then(function() {
+        alert('Definition copied to clipboard!');
+    });
+}
+</script>
+{% endblock %}

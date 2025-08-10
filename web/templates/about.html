@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}About - VocabBuilder{% endblock %}
+
+{% block content %}
+<div class="about-page">
+    <div class="page-header">
+        <h1>About VocabBuilder</h1>
+    </div>
+
+    <div class="about-content">
+        <section class="about-section">
+            <h2>📚 Our Mission</h2>
+            <p>VocabBuilder is dedicated to helping people expand their vocabulary through carefully curated words from various sources. We believe that a rich vocabulary enhances communication, comprehension, and cognitive abilities.</p>
+        </section>
+
+        <section class="about-section">
+            <h2>🎯 What We Offer</h2>
+            <ul>
+                <li><strong>{{ total_words }} Words:</strong> A comprehensive collection of interesting and useful vocabulary</li>
+                <li><strong>Detailed Definitions:</strong> Clear explanations with parts of speech</li>
+                <li><strong>Real Usage Examples:</strong> See how words are used in actual literature and media</li>
+                <li><strong>Study Tools:</strong> Interactive flashcards for effective learning</li>
+                <li><strong>Smart Search:</strong> Find words quickly by term or definition</li>
+            </ul>
+        </section>
+
+        <section class="about-section">
+            <h2>📊 Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">{{ total_words }}</div>
+                    <div class="stat-label">Total Words</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Free Access</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label">Learning Potential</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-section">
+            <h2>🛠️ Technology</h2>
+            <p>VocabBuilder is built with modern web technologies:</p>
+            <ul>
+                <li>Python & Flask for the backend</li>
+                <li>BeautifulSoup for data collection</li>
+                <li>Responsive HTML/CSS for the interface</li>
+                <li>JavaScript for interactive features</li>
+            </ul>
+        </section>
+
+        <section class="about-section">
+            <h2>🚀 Future Plans</h2>
+            <p>We're constantly working to improve VocabBuilder:</p>
+            <ul>
+                <li>Adding more vocabulary sources</li>
+                <li>Implementing spaced repetition learning</li>
+                <li>Building mobile applications</li>
+                <li>Creating personalized learning paths</li>
+            </ul>
+        </section>
+
+        <section class="about-section">
+            <h2>📬 Contact & Contribute</h2>
+            <p>VocabBuilder is an open-source project. We welcome contributions and feedback!</p>
+            <div class="contact-links">
+                <a href="https://github.com/Shalsh23/VocabBuilder" class="btn btn-primary">View on GitHub</a>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Study Mode - VocabBuilder{% endblock %}
+
+{% block content %}
+<div class="study-mode">
+    <div class="page-header">
+        <h1>🎯 Study Mode</h1>
+        <p>Word {{ word.index }} of {{ word.total }}</p>
+    </div>
+
+    <div class="flashcard-container">
+        <div class="flashcard" id="flashcard">
+            <div class="flashcard-front">
+                <h2 class="flashcard-word">{{ word.word }}</h2>
+                <button onclick="flipCard()" class="btn btn-primary">Show Definition</button>
+            </div>
+            
+            <div class="flashcard-back" style="display: none;">
+                <h3>{{ word.word }}</h3>
+                
+                <div class="flashcard-content">
+                    <h4>Definitions:</h4>
+                    {% for meaning in word.meanings %}
+                    <div class="flashcard-meaning">
+                        {% if meaning.part_of_speech %}
+                        <span class="part-of-speech-badge">{{ meaning.part_of_speech }}</span>
+                        {% endif %}
+                        <p>{{ meaning.definition }}</p>
+                    </div>
+                    {% endfor %}
+                    
+                    {% if word.examples %}
+                    <h4>Examples:</h4>
+                    <div class="flashcard-examples">
+                        {% for example in word.examples[:2] %}
+                        <p class="example-text">{{ example[:200] }}{% if example|length > 200 %}...{% endif %}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <button onclick="flipCard()" class="btn btn-outline">Hide Definition</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="study-controls">
+        <a href="{{ url_for('study', action='prev') }}" class="btn btn-outline">
+            ← Previous
+        </a>
+        
+        <a href="{{ url_for('study', action='random') }}" class="btn btn-secondary">
+            🎲 Random Word
+        </a>
+        
+        <a href="{{ url_for('word_detail', word_name=word.word) }}" class="btn btn-outline">
+            📖 Full Details
+        </a>
+        
+        <a href="{{ url_for('study', action='next') }}" class="btn btn-primary">
+            Next →
+        </a>
+    </div>
+
+    <div class="study-progress">
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: {{ (word.index / word.total * 100)|int }}%"></div>
+        </div>
+        <p class="progress-text">Progress: {{ (word.index / word.total * 100)|int }}%</p>
+    </div>
+
+    <div class="study-tips">
+        <h3>💡 Study Tips</h3>
+        <ul>
+            <li>Try to guess the meaning before revealing it</li>
+            <li>Create mental associations with the word</li>
+            <li>Use the word in your own sentences</li>
+            <li>Review words multiple times for better retention</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+let isFlipped = false;
+
+function flipCard() {
+    const front = document.querySelector('.flashcard-front');
+    const back = document.querySelector('.flashcard-back');
+    const card = document.getElementById('flashcard');
+    
+    if (!isFlipped) {
+        front.style.display = 'none';
+        back.style.display = 'block';
+        card.classList.add('flipped');
+    } else {
+        front.style.display = 'block';
+        back.style.display = 'none';
+        card.classList.remove('flipped');
+    }
+    
+    isFlipped = !isFlipped;
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+    if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        flipCard();
+    } else if (e.key === 'ArrowRight') {
+        window.location.href = "{{ url_for('study', action='next') }}";
+    } else if (e.key === 'ArrowLeft') {
+        window.location.href = "{{ url_for('study', action='prev') }}";
+    } else if (e.key === 'r' || e.key === 'R') {
+        window.location.href = "{{ url_for('study', action='random') }}";
+    }
+});
+</script>
+{% endblock %}

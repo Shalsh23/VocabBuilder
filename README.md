@@ -17,6 +17,14 @@ VocabBuilder is designed to be an extensible vocabulary aggregation platform. Cu
 - Saves data in CSV format for easy access and analysis
 - Implements polite scraping with delays to respect server resources
 
+### Web Interface (NEW!)
+- **Interactive Dashboard**: Browse and study vocabulary through a modern web UI
+- **Word List View**: Paginated display with search and sort functionality
+- **Word Detail Pages**: Complete information for each word with navigation
+- **Advanced Search**: Real-time search across words and definitions
+- **Study Mode**: Interactive flashcards with keyboard shortcuts
+- **Responsive Design**: Works on desktop, tablet, and mobile devices
+
 ## Planned Features
 
 ### Additional Data Sources
@@ -42,11 +50,22 @@ VocabBuilder is designed to be an extensible vocabulary aggregation platform. Cu
 VocabBuilder/
 ├── src/                     # Source code
 │   ├── scrape_words.py      # Scrapes word URLs from archives
-│   └── extract_meanings.py  # Extracts detailed word information
+│   ├── extract_meanings.py  # Extracts detailed word information
+│   └── check_status.py      # Check processing status
+├── web/                     # Web interface (Flask)
+│   ├── app.py              # Main Flask application
+│   ├── templates/          # HTML templates
+│   ├── static/             # CSS and JavaScript
+│   └── README.md           # Web interface documentation
 ├── resources/               # Data and output files
 │   ├── wordsmith_words.csv
 │   ├── wordsmith_complete.csv
 │   └── wordsmith_extraction.log
+├── docs/                    # Documentation
+│   ├── architecture.md
+│   ├── features.md
+│   ├── api-reference.md
+│   └── roadmap.md
 ├── requirements.txt
 ├── README.md
 └── .gitignore
@@ -85,12 +104,36 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
 3. Install required packages:
 ```bash
-pip install requests beautifulsoup4
+pip install -r requirements.txt
+```
+Or install individually:
+```bash
+pip install requests beautifulsoup4 Flask
 ```
 
 ## Usage
 
-### Basic Usage
+### Web Interface Usage
+
+1. Navigate to the web directory and start the Flask server:
+```bash
+cd web
+python app.py
+```
+
+2. Open your browser and visit:
+```
+http://localhost:8080
+```
+
+3. Explore the features:
+   - **Home**: Dashboard with word count and Word of the Day
+   - **Words**: Browse all words with pagination and search
+   - **Search**: Advanced search with real-time results
+   - **Study**: Flashcard mode with keyboard shortcuts (Space to flip, arrows to navigate)
+   - **About**: Information about the project
+
+### Command-Line Usage
 
 1. First, scrape the word URLs from the archives:
 ```bash
@@ -141,8 +184,9 @@ The dataset includes interesting vocabulary such as:
 ## Requirements
 
 - Python 3.x
-- requests
-- beautifulsoup4
+- requests (for web scraping)
+- beautifulsoup4 (for HTML parsing)
+- Flask (for web interface)
 
 ## License
 

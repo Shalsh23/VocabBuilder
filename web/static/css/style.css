@@ -1,14 +1,17 @@
 /* VocabBuilder CSS Stylesheet */
 
 :root {
-    --primary-color: #2C3E50;
-    --secondary-color: #16A085;
-    --accent-color: #E67E22;
-    --background-color: #F8F9FA;
-    --text-color: #2C3E50;
-    --border-color: #DEE2E6;
-    --card-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    --hover-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    /* Warm Pastel Color Palette */
+    --primary-color: #8B6F47;        /* Warm Brown (from dark slate) */
+    --secondary-color: #FFB5A0;       /* Soft Peach (from teal) */
+    --accent-color: #E8D5C4;          /* Light Beige (from orange) */
+    --background-color: #FFF5E6;      /* Warm Cream (from cool gray) */
+    --text-color: #5D4E37;            /* Soft Brown (from dark slate) */
+    --border-color: #F0E6D2;          /* Light Tan (from gray) */
+    --card-shadow: 0 2px 4px rgba(139, 111, 71, 0.1);
+    --hover-shadow: 0 4px 8px rgba(139, 111, 71, 0.15);
+    --font-heading: 'Avalon', Georgia, serif;
+    --font-body: 'Cormorant Garamond', 'Times New Roman', serif;
 }
 
 * {
@@ -18,7 +21,8 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; */
+    font-family: var(--font-body);
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
@@ -165,17 +169,17 @@ body {
 }
 
 .btn-primary:hover {
-    background: #128F76;
+    background: #F5A280;  /* Darker peach for hover */
     transform: translateY(-2px);
 }
 
 .btn-secondary {
     background: var(--accent-color);
-    color: white;
+    color: var(--text-color);  /* Use text color for better contrast on light beige */
 }
 
 .btn-secondary:hover {
-    background: #D35400;
+    background: #D8C2AE;  /* Darker beige for hover */
 }
 
 .btn-outline {
@@ -209,8 +213,8 @@ body {
 }
 
 .word-of-day {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+    color: var(--text-color);
 }
 
 .word-title {
@@ -320,7 +324,8 @@ body {
 }
 
 .word-card-meaning {
-    color: #6C757D;
+    color: var(--text-color);
+    opacity: 0.8;  /* Slightly muted for secondary text */
     margin-bottom: 1rem;
 }
 
@@ -384,7 +389,8 @@ body {
 }
 
 .nav-arrow.disabled {
-    color: #CCC;
+    color: var(--border-color);
+    opacity: 0.5;
     cursor: not-allowed;
 }
 
@@ -543,7 +549,8 @@ body {
 
 .progress-text {
     text-align: center;
-    color: #6C757D;
+    color: var(--text-color);
+    opacity: 0.7;
 }
 
 .study-tips {
@@ -604,7 +611,8 @@ body {
 .empty-state {
     text-align: center;
     padding: 3rem;
-    color: #6C757D;
+    color: var(--text-color);
+    opacity: 0.7;
 }
 
 /* Responsive Design */

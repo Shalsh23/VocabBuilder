@@ -1,8 +1,12 @@
-# VocabBuilder Roadmap
+# WordOtter Roadmap
 
 ## Project Vision
 
-VocabBuilder aims to become a comprehensive vocabulary learning tool that aggregates interesting words from multiple sources, making vocabulary expansion accessible and enjoyable.
+Some people collect stamps or pressed flowers. We collect words. Not in haste, but in the way you might collect seashells on a quiet morning—turning each one over, marveling at its shape, feeling the weight of its history.
+
+WordOtter is for those who find joy in this kind of lingering. It's for people who read a sentence twice, not because they didn't understand it, but because it felt too good to leave behind. For those who smile when they meet sonder or halcyon in the wild, and tuck it away for later use.
+
+We believe words are not mere instruments of communication—they are the tools with which we think, dream, and build the architecture of our inner worlds. Learning them should feel less like homework and more like stepping into a well-lit room you didn't know was in your own home.
 
 ## Current Status (August 2024)
 
@@ -67,7 +71,7 @@ VocabBuilder aims to become a comprehensive vocabulary learning tool that aggreg
 
 ## Contributing
 
-VocabBuilder is open to contributions! Areas where help is particularly welcome:
+WordOtter is open to contributions! Areas where help is particularly welcome:
 
 - Adding new data source integrations
 - Improving word extraction accuracy

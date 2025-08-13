@@ -1,14 +1,14 @@
 /* VocabBuilder CSS Stylesheet */
 
 :root {
-    --primary-color: #2C3E50;
-    --secondary-color: #16A085;
-    --accent-color: #E67E22;
-    --background-color: #F8F9FA;
-    --text-color: #2C3E50;
-    --border-color: #DEE2E6;
-    --card-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    --hover-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    --primary-color: #8C6A4A;      /* Otter Brown - warm, grounded */
+    --secondary-color: #F7B89B;    /* Peach Blush - soft, friendly warmth */
+    --accent-color: #E8D5C4;       /* Sandy Beige - calm backdrop */
+    --background-color: #FFFCF7;   /* Ivory White - subtle warmth */
+    --text-color: #3F3F3F;         /* Charcoal - maximum readability */
+    --border-color: #E8D5C4;       /* Sandy Beige for subtle borders */
+    --card-shadow: 0 2px 4px rgba(63, 63, 63, 0.06);
+    --hover-shadow: 0 4px 8px rgba(63, 63, 63, 0.10);
 }
 
 * {

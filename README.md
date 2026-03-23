@@ -1,3 +1,5 @@
+https://www.wordotter.com/
+
 # VocabBuilder - Multi-Source Vocabulary Application
 
 A comprehensive vocabulary learning application that aggregates interesting words, definitions, and usage examples from multiple sources to build a rich language learning database.
